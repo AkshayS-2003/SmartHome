@@ -1,0 +1,1246 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#  <meta charset="UTF-8">#}
+{#  <title>Dialysis Center Registration</title>#}
+{#  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">#}
+{#</head>#}
+{##}
+{#<body class="bg-light">#}
+{#  <div class="container py-5">#}
+{#    <div class="row justify-content-center">#}
+{#      <div class="col-md-8 col-lg-6">#}
+{#        <div class="card shadow-sm">#}
+{#          <div class="card-header bg-primary text-white text-center">#}
+{#            <h4 class="mb-0">Dialysis Center Registration</h4>#}
+{#          </div>#}
+{#          <div class="card-body">#}
+{##}
+{#            <!-- Success Message -->#}
+{#            {% if messages %}#}
+{#              {% for message in messages %}#}
+{#                <div class="alert alert-success text-center">{{ message }}</div>#}
+{#              {% endfor %}#}
+{#            {% endif %}#}
+{##}
+{#            <form action="/myapp/register_post/" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">#}
+{#              {% csrf_token %}#}
+{##}
+{#              <div class="mb-3">#}
+{#                <label for="username" class="form-label">Username</label>#}
+{#                <input type="text" id="username" name="username" class="form-control" required pattern="[A-Za-z0-9]+" title="Username can contain letters and numbers only">#}
+{#              </div>#}
+{##}
+{#              <div class="mb-3">#}
+{#                <label for="password" class="form-label">Password</label>#}
+{#                <input type="password" id="password" name="password" class="form-control" required title="Password must be at least 8 characters with uppercase, lowercase, digit & symbol">#}
+{#              </div>#}
+{##}
+{#              <div class="mb-3">#}
+{#                <label for="name" class="form-label"> Name</label>#}
+{#                <input type="text" id="name" name="name" class="form-control" required pattern="[A-Za-z\s]+" title="Enter letters only">#}
+{#              </div>#}
+{##}
+{#              <div class="mb-3">#}
+{#                <label for="email" class="form-label">Email</label>#}
+{#                <input type="email" id="emali" name="email" class="form-control" required>#}
+{#              </div>#}
+{##}
+{#              <div class="mb-3">#}
+{#                <label for="phone" class="form-label">Phone Number</label>#}
+{#                <input type="text" id="phone" name="phone" class="form-control" required pattern="[6-9][0-9]{9}" title="Phone must start with 6, 7, 8, or 9 and be 10 digits">#}
+{#              </div>#}
+{##}
+{##}
+{#              <div class="mb-3">#}
+{#                <label for="place" class="form-label">Place</label>#}
+{#                <input type="text" id="place" name="place" class="form-control" required pattern="[A-Za-z\s]+" title="Enter letters only">#}
+{#              </div>#}
+{##}
+{#              <div class="mb-3">#}
+{#                <label for="post_office" class="form-label">Post Office</label>#}
+{#                <input type="text" id="post_office" name="post_office" class="form-control" required pattern="[A-Za-z\s]+" title="Enter letters only">#}
+{#              </div>#}
+{##}
+{#              <div class="mb-3">#}
+{#                <label for="dist" class="form-label">District</label>#}
+{#                <input type="text" id="dist" name="dist" class="form-control" required pattern="[A-Za-z\s]+" title="Enter letters only">#}
+{#              </div>#}
+{##}
+{#              <div class="mb-3">#}
+{#                <label for="pin_no" class="form-label">Pin Number</label>#}
+{#                <input type="text" id="pin_no" name="pin_no" class="form-control" required pattern="[0-9]{6}" title="Enter a valid 6-digit PIN">#}
+{#              </div>#}
+{##}
+{#              <div class="mb-3">#}
+{#                <label for="image" class="form-label">Upload Photo</label>#}
+{#                <input type="file" id="image" name="image" class="form-control" accept="image/*" required>#}
+{#              </div>#}
+{##}
+{#              <div class="mb-3">#}
+{#                <label for="certificate" class="form-label">Upload Certificate</label>#}
+{#                <input type="file" id="certificate" name="certificate" class="form-control" accept="certificate/*" required>#}
+{#              </div>#}
+{##}
+{##}
+{#              <div class="d-grid">#}
+{#                <button type="submit" class="btn btn-primary">Create Account</button>#}
+{#              </div>#}
+{#            </form>#}
+{#          </div>#}
+{#          <div class="card-footer text-center">#}
+{#            <small>Already have an account? <a href="/myapp/login/" class="text-decoration-none">Login here</a></small>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{##}
+{#  <script>#}
+{#    function validateForm() {#}
+{#      const password = document.getElementById("password").value;#}
+{##}
+{#      const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;#}
+{##}
+{#      if (!passRegex.test(password)) {#}
+{#        alert("Password must be at least 8 characters long and include uppercase, lowercase, number, and symbol.");#}
+{#        return false;#}
+{#      }#}
+{#      return true;#}
+{#    }#}
+{#  </script>#}
+{##}
+{#  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>#}
+{#</body>#}
+{#</html>#}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Home Expert Registration</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom CSS -->
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --secondary-color: #3a0ca3;
+      --accent-color: #4cc9f0;
+      --success-color: #2ec4b6;
+      --light-bg: #f8f9fa;
+      --dark-bg: #212529;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding-top: 20px;
+      padding-bottom: 40px;
+    }
+
+    .registration-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(67, 97, 238, 0.15);
+      border: none;
+      overflow: hidden;
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: white;
+      padding: 25px;
+      text-align: center;
+      border-bottom: none;
+    }
+
+    .card-header h4 {
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .card-header p {
+      opacity: 0.9;
+      font-size: 0.95rem;
+      margin-bottom: 0;
+    }
+
+    .card-body {
+      padding: 30px;
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: #495057;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+    }
+
+    .form-label i {
+      margin-right: 10px;
+      color: var(--primary-color);
+      width: 20px;
+      text-align: center;
+    }
+
+    .form-control {
+      padding: 12px 15px;
+      border-radius: 10px;
+      border: 2px solid #e9ecef;
+      transition: all 0.3s;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+    }
+
+    .form-control.is-valid {
+      border-color: var(--success-color);
+    }
+
+    .form-control.is-invalid {
+      border-color: #dc3545;
+    }
+
+    .input-group-text {
+      background-color: #f8f9fc;
+      border: 2px solid #e9ecef;
+      border-right: none;
+    }
+
+    .input-group .form-control {
+      border-left: none;
+    }
+
+    .input-group .form-control:focus {
+      border-left: none;
+    }
+
+    .validation-message {
+      font-size: 0.85rem;
+      margin-top: 5px;
+    }
+
+    .valid-feedback, .invalid-feedback {
+      display: block;
+    }
+
+    .file-upload-wrapper {
+      position: relative;
+      overflow: hidden;
+      margin-top: 5px;
+    }
+
+    .file-upload-label {
+      display: block;
+      padding: 12px;
+      background: #f8f9fa;
+      border: 2px dashed #dee2e6;
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: #6c757d;
+    }
+
+    .file-upload-label:hover {
+      background: #e9ecef;
+      border-color: var(--primary-color);
+    }
+
+    .file-upload-label i {
+      margin-right: 8px;
+      color: var(--primary-color);
+    }
+
+    .file-upload-input {
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .file-info {
+      font-size: 0.85rem;
+      color: #6c757d;
+      margin-top: 5px;
+    }
+
+    .preview-container {
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .preview-image {
+      max-width: 150px;
+      border-radius: 8px;
+      border: 2px solid #dee2e6;
+      margin-bottom: 10px;
+    }
+
+    .preview-doc {
+      padding: 10px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border: 1px solid #dee2e6;
+      margin-bottom: 10px;
+    }
+
+    .btn-register {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      border: none;
+      color: white;
+      padding: 14px 30px;
+      font-weight: 600;
+      border-radius: 10px;
+      transition: all 0.3s;
+      width: 100%;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-register:hover {
+      background: linear-gradient(135deg, #3a56d5 0%, #2f0a8a 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    .btn-register:active {
+      transform: translateY(0);
+    }
+
+    .alert-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1050;
+      min-width: 300px;
+    }
+
+    .password-strength {
+      height: 5px;
+      border-radius: 5px;
+      margin-top: 5px;
+      transition: all 0.3s;
+    }
+
+    .strength-weak {
+      background-color: #dc3545;
+      width: 25%;
+    }
+
+    .strength-fair {
+      background-color: #ffc107;
+      width: 50%;
+    }
+
+    .strength-good {
+      background-color: #28a745;
+      width: 75%;
+    }
+
+    .strength-strong {
+      background-color: #20c997;
+      width: 100%;
+    }
+
+    .password-requirements {
+      font-size: 0.85rem;
+      color: #6c757d;
+      margin-top: 10px;
+    }
+
+    .requirement-met {
+      color: #28a745;
+    }
+
+    .requirement-unmet {
+      color: #6c757d;
+    }
+
+    .toggle-password {
+      cursor: pointer;
+      color: #6c757d;
+    }
+
+    .toggle-password:hover {
+      color: var(--primary-color);
+    }
+
+    .card-footer {
+      background-color: #f8f9fa;
+      border-top: 1px solid #e9ecef;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .progress-indicator {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      counter-reset: step;
+    }
+
+    .progress-step {
+      text-align: center;
+      position: relative;
+      flex: 1;
+    }
+
+    .progress-step::before {
+      content: counter(step);
+      counter-increment: step;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      border-radius: 50%;
+      background-color: #e9ecef;
+      color: #6c757d;
+      display: block;
+      margin: 0 auto 10px;
+      font-weight: 600;
+    }
+
+    .progress-step.active::before {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .progress-step.completed::before {
+      background-color: var(--success-color);
+      color: white;
+      content: '✓';
+    }
+
+    .progress-step p {
+      font-size: 0.85rem;
+      color: #6c757d;
+      margin-bottom: 0;
+    }
+
+    .progress-step.active p {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    .form-section {
+      display: none;
+    }
+
+    .form-section.active {
+      display: block;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 768px) {
+      .card-body {
+        padding: 20px;
+      }
+
+      .progress-step p {
+        font-size: 0.75rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Alert Container for Validation Messages -->
+  <div class="alert-container"></div>
+
+  <div class="container py-4">
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-8">
+        <div class="registration-card">
+          <!-- Header -->
+          <div class="card-header">
+            <h4><i class="fas fa-user-tie me-2"></i>Smart Home Expert Registration</h4>
+            <p>Join our network of certified smart home professionals</p>
+          </div>
+
+          <!-- Progress Indicator -->
+          <div class="px-4 pt-4">
+            <div class="progress-indicator">
+              <div class="progress-step active">
+                <p>Personal Info</p>
+              </div>
+              <div class="progress-step">
+                <p>Contact Details</p>
+              </div>
+              <div class="progress-step">
+                <p>Documents</p>
+              </div>
+              <div class="progress-step">
+                <p>Review</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Success Messages -->
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-success text-center mx-4">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+
+          <!-- Registration Form -->
+          <div class="card-body">
+            <form action="/myapp/register_post/" method="post" enctype="multipart/form-data" id="registrationForm">
+              {% csrf_token %}
+
+              <!-- Section 1: Personal Information -->
+              <div class="form-section active" id="section1">
+                <h5 class="mb-4 text-primary"><i class="fas fa-user-circle me-2"></i>Personal Information</h5>
+
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="username" class="form-label"><i class="fas fa-user"></i>Username</label>
+                    <div class="input-group">
+                      <span class="input-group-text">@</span>
+                      <input type="text" id="username" name="username" class="form-control"
+                             placeholder="Choose a username" required>
+                    </div>
+                    <div class="validation-message text-muted">
+                      Letters and numbers only, 3-20 characters
+                    </div>
+                    <div class="invalid-feedback" id="usernameError">
+                      Username must be 3-20 characters (letters and numbers only)
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="name" class="form-label"><i class="fas fa-id-card"></i>Full Name</label>
+                    <input type="text" id="name" name="name" class="form-control"
+                           placeholder="Enter your full name" required>
+                    <div class="validation-message text-muted">
+                      Enter your complete legal name
+                    </div>
+                    <div class="invalid-feedback" id="nameError">
+                      Please enter a valid name (letters and spaces only)
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="password" class="form-label"><i class="fas fa-lock"></i>Password</label>
+                    <div class="input-group">
+                      <input type="password" id="password" name="password" class="form-control"
+                             placeholder="Create a strong password" required>
+                      <span class="input-group-text toggle-password" id="togglePassword">
+                        <i class="fas fa-eye"></i>
+                      </span>
+                    </div>
+                    <div class="password-strength" id="passwordStrength"></div>
+                    <div class="password-requirements">
+                      <div><i class="fas fa-circle requirement-unmet" id="reqLength"></i> At least 8 characters</div>
+                      <div><i class="fas fa-circle requirement-unmet" id="reqUpper"></i> One uppercase letter</div>
+                      <div><i class="fas fa-circle requirement-unmet" id="reqLower"></i> One lowercase letter</div>
+                      <div><i class="fas fa-circle requirement-unmet" id="reqNumber"></i> One number</div>
+                      <div><i class="fas fa-circle requirement-unmet" id="reqSpecial"></i> One special character</div>
+                    </div>
+                    <div class="invalid-feedback" id="passwordError">
+                      Password must be at least 8 characters with uppercase, lowercase, number, and special character
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="confirmPassword" class="form-label"><i class="fas fa-lock"></i>Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control"
+                           placeholder="Re-enter your password" required>
+                    <div class="invalid-feedback" id="confirmPasswordError">
+                      Passwords do not match
+                    </div>
+                  </div>
+                </div>
+
+                <div class="nav-buttons">
+                  <div></div> <!-- Empty div for spacing -->
+                  <button type="button" class="btn btn-primary next-section" data-next="2">
+                    Next <i class="fas fa-arrow-right ms-1"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Section 2: Contact Details -->
+              <div class="form-section" id="section2">
+                <h5 class="mb-4 text-primary"><i class="fas fa-address-book me-2"></i>Contact Details</h5>
+
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="email" class="form-label"><i class="fas fa-envelope"></i>Email Address</label>
+                    <input type="email" id="email" name="email" class="form-control"
+                           placeholder="example@domain.com" required>
+                    <div class="validation-message text-muted">
+                      We'll send a verification email to this address
+                    </div>
+                    <div class="invalid-feedback" id="emailError">
+                      Please enter a valid email address
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="phone" class="form-label"><i class="fas fa-phone"></i>Phone Number</label>
+                    <div class="input-group">
+                      <span class="input-group-text">+91</span>
+                      <input type="text" id="phone" name="phone" class="form-control"
+                             placeholder="10-digit mobile number" required>
+                    </div>
+                    <div class="validation-message text-muted">
+                      10-digit number starting with 6, 7, 8, or 9
+                    </div>
+                    <div class="invalid-feedback" id="phoneError">
+                      Please enter a valid 10-digit Indian mobile number
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="place" class="form-label"><i class="fas fa-map-marker-alt"></i>City/Town</label>
+                    <input type="text" id="place" name="place" class="form-control"
+                           placeholder="Enter your city or town" required>
+                    <div class="invalid-feedback" id="placeError">
+                      Please enter a valid city/town name
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="post_office" class="form-label"><i class="fas fa-mail-bulk"></i>Post Office</label>
+                    <input type="text" id="post_office" name="post_office" class="form-control"
+                           placeholder="Nearest post office" required>
+                    <div class="invalid-feedback" id="postOfficeError">
+                      Please enter a valid post office name
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="dist" class="form-label"><i class="fas fa-globe"></i>District</label>
+                    <input type="text" id="dist" name="dist" class="form-control"
+                           placeholder="Enter your district" required>
+                    <div class="invalid-feedback" id="districtError">
+                      Please enter a valid district name
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label for="pin_no" class="form-label"><i class="fas fa-map-pin"></i>PIN Code</label>
+                    <input type="text" id="pin_no" name="pin_no" class="form-control"
+                           placeholder="6-digit PIN code" required maxlength="6">
+                    <div class="validation-message text-muted">
+                      6-digit Indian postal code
+                    </div>
+                    <div class="invalid-feedback" id="pinError">
+                      Please enter a valid 6-digit PIN code
+                    </div>
+                  </div>
+                </div>
+
+                <div class="nav-buttons">
+                  <button type="button" class="btn btn-outline-secondary prev-section" data-prev="1">
+                    <i class="fas fa-arrow-left me-1"></i> Back
+                  </button>
+                  <button type="button" class="btn btn-primary next-section" data-next="3">
+                    Next <i class="fas fa-arrow-right ms-1"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Section 3: Documents -->
+              <div class="form-section" id="section3">
+                <h5 class="mb-4 text-primary"><i class="fas fa-file-contract me-2"></i>Document Upload</h5>
+
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <label class="form-label"><i class="fas fa-camera"></i>Profile Photo</label>
+                    <div class="file-upload-wrapper">
+                      <label class="file-upload-label" for="image">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span id="imageLabel">Click to upload profile photo</span>
+                      </label>
+                      <input type="file" id="image" name="image" class="file-upload-input"
+                             accept="image/*" required>
+                    </div>
+                    <div class="file-info">
+                      JPG, PNG or GIF. Max size: 2MB. Recommended: 300x300 px
+                    </div>
+                    <div class="preview-container" id="imagePreview">
+                      <!-- Image preview will appear here -->
+                    </div>
+                    <div class="invalid-feedback" id="imageError">
+                      Please upload a valid image file (JPG, PNG, GIF, max 2MB)
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mb-4">
+                    <label class="form-label"><i class="fas fa-certificate"></i>Expertise Certificate</label>
+                    <div class="file-upload-wrapper">
+                      <label class="file-upload-label" for="certificate">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span id="certificateLabel">Click to upload certificate</span>
+                      </label>
+                      <input type="file" id="certificate" name="certificate" class="file-upload-input"
+                             accept=".pdf,.jpg,.jpeg,.png" required>
+                    </div>
+                    <div class="file-info">
+                      PDF, JPG or PNG. Max size: 5MB
+                    </div>
+                    <div class="preview-container" id="certificatePreview">
+                      <!-- Certificate preview will appear here -->
+                    </div>
+                    <div class="invalid-feedback" id="certificateError">
+                      Please upload a valid certificate (PDF, JPG, PNG, max 5MB)
+                    </div>
+                  </div>
+                </div>
+
+                <div class="alert alert-info">
+                  <i class="fas fa-info-circle me-2"></i>
+                  <strong>Note:</strong> Your documents will be verified within 3-5 business days.
+                  You will receive an email notification once your account is approved.
+                </div>
+
+                <div class="nav-buttons">
+                  <button type="button" class="btn btn-outline-secondary prev-section" data-prev="2">
+                    <i class="fas fa-arrow-left me-1"></i> Back
+                  </button>
+                  <button type="button" class="btn btn-primary next-section" data-next="4">
+                    Next <i class="fas fa-arrow-right ms-1"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Section 4: Review and Submit -->
+              <div class="form-section" id="section4">
+                <h5 class="mb-4 text-primary"><i class="fas fa-clipboard-check me-2"></i>Review & Submit</h5>
+
+                <div class="alert alert-success">
+                  <i class="fas fa-check-circle me-2"></i>
+                  <strong>Almost done!</strong> Please review your information before submitting.
+                </div>
+
+                <div class="card mb-4">
+                  <div class="card-header bg-light">
+                    <h6 class="mb-0">Registration Summary</h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p><strong>Username:</strong> <span id="reviewUsername"></span></p>
+                        <p><strong>Full Name:</strong> <span id="reviewName"></span></p>
+                        <p><strong>Email:</strong> <span id="reviewEmail"></span></p>
+                        <p><strong>Phone:</strong> <span id="reviewPhone"></span></p>
+                      </div>
+                      <div class="col-md-6">
+                        <p><strong>Location:</strong> <span id="reviewLocation"></span></p>
+                        <p><strong>District:</strong> <span id="reviewDistrict"></span></p>
+                        <p><strong>PIN Code:</strong> <span id="reviewPin"></span></p>
+                        <p><strong>Documents:</strong> <span id="reviewDocuments"></span></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-check mb-4">
+                  <input class="form-check-input" type="checkbox" id="termsAgreement" required>
+                  <label class="form-check-label" for="termsAgreement">
+                    I agree to the <a href="#" class="text-decoration-none">Terms of Service</a> and
+                    <a href="#" class="text-decoration-none">Privacy Policy</a>. I certify that all
+                    information provided is accurate to the best of my knowledge.
+                  </label>
+                  <div class="invalid-feedback" id="termsError">
+                    You must agree to the terms and conditions
+                  </div>
+                </div>
+
+                <div class="nav-buttons">
+                  <button type="button" class="btn btn-outline-secondary prev-section" data-prev="3">
+                    <i class="fas fa-arrow-left me-1"></i> Back
+                  </button>
+                  <button type="submit" class="btn btn-success" id="submitButton">
+                    <i class="fas fa-paper-plane me-1"></i> Complete Registration
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Footer -->
+          <div class="card-footer">
+            <small>Already have an account? <a href="/myapp/login/" class="text-decoration-none fw-bold">Login here</a></small>
+            <p class="mt-2 mb-0 text-muted"><small>© 2023 Smart Home Experts Network. All rights reserved.</small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom Validation Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Form elements
+      const form = document.getElementById('registrationForm');
+      const sections = document.querySelectorAll('.form-section');
+      const progressSteps = document.querySelectorAll('.progress-step');
+      const nextButtons = document.querySelectorAll('.next-section');
+      const prevButtons = document.querySelectorAll('.prev-section');
+
+      // Input fields
+      const usernameInput = document.getElementById('username');
+      const nameInput = document.getElementById('name');
+      const passwordInput = document.getElementById('password');
+      const confirmPasswordInput = document.getElementById('confirmPassword');
+      const emailInput = document.getElementById('email');
+      const phoneInput = document.getElementById('phone');
+      const placeInput = document.getElementById('place');
+      const postOfficeInput = document.getElementById('post_office');
+      const districtInput = document.getElementById('dist');
+      const pinInput = document.getElementById('pin_no');
+      const imageInput = document.getElementById('image');
+      const certificateInput = document.getElementById('certificate');
+      const termsCheckbox = document.getElementById('termsAgreement');
+
+      // Toggle password visibility
+      const togglePassword = document.getElementById('togglePassword');
+      if (togglePassword) {
+        togglePassword.addEventListener('click', function() {
+          const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+          passwordInput.setAttribute('type', type);
+          this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
+      }
+
+      // Validation patterns
+      const patterns = {
+        username: /^[A-Za-z0-9]{3,20}$/,
+        name: /^[A-Za-z\s]{2,50}$/,
+        password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        phone: /^[6-9][0-9]{9}$/,
+        place: /^[A-Za-z\s]{2,50}$/,
+        postOffice: /^[A-Za-z\s]{2,50}$/,
+        district: /^[A-Za-z\s]{2,50}$/,
+        pin: /^[0-9]{6}$/
+      };
+
+      // Real-time validation for username
+      usernameInput.addEventListener('input', function() {
+        validateField(this, patterns.username, 'usernameError');
+      });
+
+      // Real-time validation for name
+      nameInput.addEventListener('input', function() {
+        validateField(this, patterns.name, 'nameError');
+      });
+
+      // Password strength checker
+      passwordInput.addEventListener('input', function() {
+        const password = this.value;
+        const strengthBar = document.getElementById('passwordStrength');
+        const reqLength = document.getElementById('reqLength');
+        const reqUpper = document.getElementById('reqUpper');
+        const reqLower = document.getElementById('reqLower');
+        const reqNumber = document.getElementById('reqNumber');
+        const reqSpecial = document.getElementById('reqSpecial');
+
+        // Check requirements
+        const hasLength = password.length >= 8;
+        const hasUpper = /[A-Z]/.test(password);
+        const hasLower = /[a-z]/.test(password);
+        const hasNumber = /\d/.test(password);
+        const hasSpecial = /[@$!%*?&]/.test(password);
+
+        // Update requirement icons
+        updateRequirementIcon(reqLength, hasLength);
+        updateRequirementIcon(reqUpper, hasUpper);
+        updateRequirementIcon(reqLower, hasLower);
+        updateRequirementIcon(reqNumber, hasNumber);
+        updateRequirementIcon(reqSpecial, hasSpecial);
+
+        // Calculate strength
+        let strength = 0;
+        if (hasLength) strength++;
+        if (hasUpper) strength++;
+        if (hasLower) strength++;
+        if (hasNumber) strength++;
+        if (hasSpecial) strength++;
+
+        // Update strength bar
+        strengthBar.className = 'password-strength';
+        if (strength === 0) {
+          strengthBar.classList.add('strength-weak');
+        } else if (strength <= 2) {
+          strengthBar.classList.add('strength-weak');
+        } else if (strength === 3) {
+          strengthBar.classList.add('strength-fair');
+        } else if (strength === 4) {
+          strengthBar.classList.add('strength-good');
+        } else {
+          strengthBar.classList.add('strength-strong');
+        }
+
+        // Validate password
+        validateField(this, patterns.password, 'passwordError');
+
+        // Validate confirm password if it has value
+        if (confirmPasswordInput.value) {
+          validateConfirmPassword();
+        }
+      });
+
+      // Confirm password validation
+      confirmPasswordInput.addEventListener('input', validateConfirmPassword);
+
+      // Email validation
+      emailInput.addEventListener('input', function() {
+        validateField(this, patterns.email, 'emailError');
+      });
+
+      // Phone validation
+      phoneInput.addEventListener('input', function() {
+        // Remove non-digits
+        this.value = this.value.replace(/\D/g, '');
+        validateField(this, patterns.phone, 'phoneError');
+      });
+
+      // Location fields validation
+      placeInput.addEventListener('input', function() {
+        validateField(this, patterns.place, 'placeError');
+      });
+
+      postOfficeInput.addEventListener('input', function() {
+        validateField(this, patterns.postOffice, 'postOfficeError');
+      });
+
+      districtInput.addEventListener('input', function() {
+        validateField(this, patterns.district, 'districtError');
+      });
+
+      // PIN validation
+      pinInput.addEventListener('input', function() {
+        // Allow only digits
+        this.value = this.value.replace(/\D/g, '');
+        validateField(this, patterns.pin, 'pinError');
+      });
+
+      // Image upload preview
+      imageInput.addEventListener('change', function() {
+        handleFileUpload(this, 'imageLabel', 'imagePreview', 'image', true);
+      });
+
+      // Certificate upload preview
+      certificateInput.addEventListener('change', function() {
+        handleFileUpload(this, 'certificateLabel', 'certificatePreview', 'certificate', false);
+      });
+
+      // Form navigation
+      nextButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const nextSectionId = this.getAttribute('data-next');
+          if (validateCurrentSection(nextSectionId - 1)) {
+            showSection(nextSectionId);
+            updateProgress(nextSectionId);
+          }
+        });
+      });
+
+      prevButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const prevSectionId = this.getAttribute('data-prev');
+          showSection(prevSectionId);
+          updateProgress(prevSectionId);
+        });
+      });
+
+      // Form submission
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Validate all sections
+        let isValid = true;
+        for (let i = 1; i <= 4; i++) {
+          if (!validateCurrentSection(i)) {
+            isValid = false;
+            showSection(i);
+            updateProgress(i);
+            break;
+          }
+        }
+
+        // Check terms agreement
+        if (!termsCheckbox.checked) {
+          isValid = false;
+          termsCheckbox.classList.add('is-invalid');
+          showAlert('Please agree to the terms and conditions', 'danger');
+        } else {
+          termsCheckbox.classList.remove('is-invalid');
+        }
+
+        if (isValid) {
+          // Update review section
+          updateReviewSection();
+
+          // Show success message and submit
+          showAlert('Registration successful! Redirecting...', 'success');
+
+          // Submit form after a short delay
+          setTimeout(() => {
+            form.submit();
+          }, 2000);
+        } else {
+          showAlert('Please fix the errors in the form before submitting.', 'danger');
+        }
+      });
+
+      // Helper function to validate a field
+      function validateField(field, pattern, errorId) {
+        const isValid = pattern.test(field.value.trim());
+
+        if (isValid) {
+          field.classList.remove('is-invalid');
+          field.classList.add('is-valid');
+        } else {
+          field.classList.remove('is-valid');
+          field.classList.add('is-invalid');
+        }
+
+        return isValid;
+      }
+
+      // Helper function to validate confirm password
+      function validateConfirmPassword() {
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+        const isValid = password === confirmPassword && password !== '';
+
+        if (isValid) {
+          confirmPasswordInput.classList.remove('is-invalid');
+          confirmPasswordInput.classList.add('is-valid');
+        } else {
+          confirmPasswordInput.classList.remove('is-valid');
+          confirmPasswordInput.classList.add('is-invalid');
+        }
+
+        return isValid;
+      }
+
+      // Helper function to update requirement icon
+      function updateRequirementIcon(element, met) {
+        if (met) {
+          element.classList.remove('requirement-unmet');
+          element.classList.add('requirement-met');
+          element.classList.remove('fa-circle');
+          element.classList.add('fa-check-circle');
+        } else {
+          element.classList.remove('requirement-met');
+          element.classList.add('requirement-unmet');
+          element.classList.remove('fa-check-circle');
+          element.classList.add('fa-circle');
+        }
+      }
+
+      // Helper function to handle file uploads
+      function handleFileUpload(input, labelId, previewId, type, isImage) {
+        const file = input.files[0];
+        const label = document.getElementById(labelId);
+        const preview = document.getElementById(previewId);
+
+        if (file) {
+          // Validate file type and size
+          let isValid = true;
+          let errorMessage = '';
+
+          if (isImage) {
+            const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+            if (!validImageTypes.includes(file.type)) {
+              isValid = false;
+              errorMessage = 'Please upload a valid image (JPG, PNG, GIF)';
+            } else if (file.size > 2 * 1024 * 1024) { // 2MB
+              isValid = false;
+              errorMessage = 'Image size must be less than 2MB';
+            }
+          } else {
+            const validDocTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+            if (!validDocTypes.includes(file.type)) {
+              isValid = false;
+              errorMessage = 'Please upload a valid document (PDF, JPG, PNG)';
+            } else if (file.size > 5 * 1024 * 1024) { // 5MB
+              isValid = false;
+              errorMessage = 'Document size must be less than 5MB';
+            }
+          }
+
+          if (!isValid) {
+            input.classList.add('is-invalid');
+            showAlert(errorMessage, 'danger');
+            input.value = '';
+            label.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Click to upload ' + (isImage ? 'profile photo' : 'certificate');
+            preview.innerHTML = '';
+            return;
+          }
+
+          // Update label
+          const fileSize = (file.size / 1024).toFixed(1);
+          label.innerHTML = `<i class="fas fa-check-circle"></i> ${file.name} (${fileSize} KB)`;
+
+          // Create preview
+          if (isImage) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              preview.innerHTML = `
+                <div class="alert alert-success p-2">
+                  <strong>Preview:</strong>
+                  <img src="${e.target.result}" class="preview-image mt-2" alt="Preview">
+                </div>
+              `;
+            };
+            reader.readAsDataURL(file);
+          } else {
+            preview.innerHTML = `
+              <div class="alert alert-success p-2">
+                <strong>Document:</strong> ${file.name}
+                <div class="preview-doc mt-2">
+                  <i class="fas fa-file-pdf fa-2x text-danger"></i>
+                  <p class="mb-0 mt-2"><small>${file.type}</small></p>
+                  <p class="mb-0"><small>${fileSize} KB</small></p>
+                </div>
+              </div>
+            `;
+          }
+
+          input.classList.remove('is-invalid');
+          input.classList.add('is-valid');
+        } else {
+          label.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Click to upload ' + (isImage ? 'profile photo' : 'certificate');
+          preview.innerHTML = '';
+        }
+      }
+
+      // Helper function to validate current section
+      function validateCurrentSection(sectionNumber) {
+        let isValid = true;
+
+        switch(sectionNumber) {
+          case 1:
+            if (!validateField(usernameInput, patterns.username, 'usernameError')) isValid = false;
+            if (!validateField(nameInput, patterns.name, 'nameError')) isValid = false;
+            if (!validateField(passwordInput, patterns.password, 'passwordError')) isValid = false;
+            if (!validateConfirmPassword()) isValid = false;
+            break;
+          case 2:
+            if (!validateField(emailInput, patterns.email, 'emailError')) isValid = false;
+            if (!validateField(phoneInput, patterns.phone, 'phoneError')) isValid = false;
+            if (!validateField(placeInput, patterns.place, 'placeError')) isValid = false;
+            if (!validateField(postOfficeInput, patterns.postOffice, 'postOfficeError')) isValid = false;
+            if (!validateField(districtInput, patterns.district, 'districtError')) isValid = false;
+            if (!validateField(pinInput, patterns.pin, 'pinError')) isValid = false;
+            break;
+          case 3:
+            if (imageInput.files.length === 0) {
+              imageInput.classList.add('is-invalid');
+              isValid = false;
+            } else {
+              imageInput.classList.remove('is-invalid');
+            }
+
+            if (certificateInput.files.length === 0) {
+              certificateInput.classList.add('is-invalid');
+              isValid = false;
+            } else {
+              certificateInput.classList.remove('is-invalid');
+            }
+            break;
+        }
+
+        if (!isValid) {
+          showAlert('Please fix the errors in the current section before proceeding.', 'warning');
+        }
+
+        return isValid;
+      }
+
+      // Helper function to show a section
+      function showSection(sectionId) {
+        sections.forEach(section => {
+          section.classList.remove('active');
+        });
+        document.getElementById(`section${sectionId}`).classList.add('active');
+      }
+
+      // Helper function to update progress indicator
+      function updateProgress(activeStep) {
+        progressSteps.forEach((step, index) => {
+          step.classList.remove('active', 'completed');
+          if (index + 1 < activeStep) {
+            step.classList.add('completed');
+          } else if (index + 1 == activeStep) {
+            step.classList.add('active');
+          }
+        });
+      }
+
+      // Helper function to update review section
+      function updateReviewSection() {
+        document.getElementById('reviewUsername').textContent = usernameInput.value;
+        document.getElementById('reviewName').textContent = nameInput.value;
+        document.getElementById('reviewEmail').textContent = emailInput.value;
+        document.getElementById('reviewPhone').textContent = '+91 ' + phoneInput.value;
+        document.getElementById('reviewLocation').textContent = `${placeInput.value}, ${postOfficeInput.value}`;
+        document.getElementById('reviewDistrict').textContent = districtInput.value;
+        document.getElementById('reviewPin').textContent = pinInput.value;
+
+        const imageFile = imageInput.files[0] ? imageInput.files[0].name : 'No new file selected';
+        const certFile = certificateInput.files[0] ? certificateInput.files[0].name : 'No new file selected';
+        document.getElementById('reviewDocuments').textContent = `${imageFile}, ${certFile}`;
+      }
+
+      // Helper function to show alerts
+      function showAlert(message, type) {
+        const alertContainer = document.querySelector('.alert-container');
+        const alertId = 'alert-' + Date.now();
+
+        const alert = document.createElement('div');
+        alert.className = `alert alert-${type} alert-dismissible fade show`;
+        alert.id = alertId;
+        alert.innerHTML = `
+          ${message}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+
+        alertContainer.appendChild(alert);
+
+        // Auto-dismiss after 5 seconds
+        setTimeout(() => {
+          const bsAlert = new bootstrap.Alert(alert);
+          bsAlert.close();
+        }, 5000);
+      }
+
+      // Initialize first section
+      updateProgress(1);
+    });
+  </script>
+</body>
+</html>

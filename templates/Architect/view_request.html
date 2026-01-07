@@ -1,0 +1,207 @@
+{#{% extends 'Architect/Architect_index.html' %}#}
+{#{% block body %}#}
+{##}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>View Request</title>#}
+{#</head>#}
+{#<body>#}
+{##}
+{#<h1>Work Request</h1>#}
+{##}
+{#<table border="1" cellpadding="10">#}
+{#    <tr>#}
+{#        <th>SL No</th>#}
+{#        <th>Date</th>#}
+{#        <th>Person Name</th>#}
+{#        <th>Email</th>#}
+{#        <th>Phone</th>#}
+{#        <th>Design name</th>#}
+{#        <th>Image</th>#}
+{#        <th>Request</th>#}
+{#        <th>Status</th>#}
+{#        <th>Action</th>#}
+{#    </tr>#}
+{#    {% for c in data %}#}
+{#    <tr>#}
+{#        <td>{{ forloop.counter }}</td>#}
+{#        <td>{{ c.date }}</td>#}
+{#        <td>{{ c.MOBILE.name }}</td>#}
+{#        <td>{{ c.MOBILE.email }}</td>#}
+{#        <td>{{ c.MOBILE.phone}}</td>#}
+{#        <td>{{ c.WORK_DESIGN.title }}</td>#}
+{#        <td>#}
+{#            <img src="{{ c.image.url }}" width="100">#}
+{#        </td>#}
+{#        <td>{{ c.requ }}</td>#}
+{#        <td>{{ c.stat }}</td>#}
+{#        <td>#}
+{#                <a href="/myapp/accept_request/{{ c.id }}" class="btn-approve">Accept</a><br><br>#}
+{#                <a href="/myapp/reject_request/{{ c.id }}" class="btn-reject">Reject</a>#}
+{#              </td>#}
+{##}
+{#    </tr>#}
+{#{% endfor %}#}
+{#</table>#}
+{##}
+{#</body>#}
+{#</html>#}
+{##}
+{#{% endblock %}#}
+
+{% extends 'Architect/Architect_index.html' %}
+{% block body %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Request</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .page-title {
+            font-weight: 700;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .img-thumbnail {
+            width: 100px;
+            height: 80px;
+            object-fit: cover;
+        }
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-approved { background: #d4edda; color: #155724; }
+        .status-rejected { background: #f8d7da; color: #721c24; }
+
+        .btn-action {
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-approve {
+            background: #28a745;
+            color: white;
+        }
+        .btn-reject {
+            background: #dc3545;
+            color: white;
+        }
+        .btn-approve:hover { background: #218838; }
+        .btn-reject:hover { background: #c82333; }
+    </style>
+</head>
+
+<body>
+
+<div class="container-fluid mt-4">
+
+    <h2 class="page-title mb-4">
+        <i class="fas fa-tasks me-2"></i>Work Requests
+    </h2>
+
+    <div class="card">
+        <div class="card-body p-0">
+
+            {% if data %}
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>SL No</th>
+                        <th>Date</th>
+                        <th>Person</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Design</th>
+                        <th>Image</th>
+                        <th>Request</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for c in data %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ c.date }}</td>
+                        <td><strong>{{ c.MOBILE.name }}</strong></td>
+                        <td>{{ c.MOBILE.email }}</td>
+                        <td>{{ c.MOBILE.phone }}</td>
+                        <td>{{ c.WORK_DESIGN.title }}</td>
+                        <td>
+                            <img src="{{ c.image.url }}" class="img-thumbnail">
+                        </td>
+                        <td>{{ c.requ }}</td>
+
+                        <!-- STATUS -->
+                        <td>
+                            {% if c.stat == "Pending" %}
+                                <span class="status-badge status-pending">Pending</span>
+                            {% elif c.stat == "Accepted" %}
+                                <span class="status-badge status-approved">Accepted</span>
+                            {% elif c.stat == "Rejected" %}
+                                <span class="status-badge status-rejected">Rejected</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- ACTION -->
+                        <td>
+                            {% if c.stat == "Pending" %}
+                                <a href="/myapp/accept_request/{{ c.id }}"
+                                   class="btn-action btn-approve"
+                                   onclick="return confirm('Accept this request?')">
+                                   Accept
+                                </a>
+                                <br><br>
+                                <a href="/myapp/reject_request/{{ c.id }}"
+                                   class="btn-action btn-reject"
+                                   onclick="return confirm('Reject this request?')">
+                                   Reject
+                                </a>
+                            {% else %}
+                                <span class="text-muted">Action completed</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {% else %}
+                <div class="text-center p-5 text-muted">
+                    <i class="fas fa-inbox fa-3x mb-3"></i>
+                    <h5>No work requests found</h5>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
+
+{% endblock %}

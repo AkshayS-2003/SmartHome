@@ -1,0 +1,549 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Add work Design</title>#}
+{#</head>#}
+{#<body>#}
+{#<h1>Work Designs</h1>#}
+{#<form action="/myapp/add_work_post/" method="post" enctype="multipart/form-data">#}
+{#    <label for="title">Title</label>#}
+{#    <input type="text" id="title" name="title"><br><br>#}
+{##}
+{#    <label for="details">Details</label>#}
+{#    <input type="text" id="details" name="details"><br><br>#}
+{##}
+{#    <label for="image">Image</label>#}
+{#    <input type="file" id="image" name="image"><br><br>#}
+{##}
+{#    <button type="submit">Submit</button>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}
+
+
+{% extends 'Architect/Architect_index.html' %}
+{% block body %}
+
+<!-- Bootstrap 5 CSS (Already loaded in parent template) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+<!-- Custom CSS -->
+<style>
+    /* Reset any conflicting styles from parent template */
+    .container-wrapper {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important;
+        min-height: calc(100vh - 60px) !important; /* Adjust based on your header height */
+        padding: 20px !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+
+    .design-container {
+        max-width: 750px !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+    }
+
+    .design-card {
+        background: white !important;
+        border-radius: 15px !important;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
+        overflow: hidden !important;
+        border: none !important;
+    }
+
+    .design-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: white !important;
+        padding: 35px 30px !important;
+        text-align: center !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+
+    .icon-container {
+        width: 80px !important;
+        height: 80px !important;
+        background: rgba(255, 255, 255, 0.2) !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 auto 20px !important;
+        position: relative !important;
+        z-index: 1 !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    }
+
+    .design-body {
+        padding: 40px !important;
+    }
+
+    /* Form Styling */
+    .form-label {
+        font-weight: 600 !important;
+        color: #2d3748 !important;
+        margin-bottom: 8px !important;
+        font-size: 0.95rem !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    .form-label .required {
+        color: #e53e3e !important;
+        margin-left: 4px !important;
+    }
+
+    .form-control, .form-control-file {
+        padding: 12px 15px !important;
+        border: 2px solid #e2e8f0 !important;
+        border-radius: 10px !important;
+        transition: all 0.3s !important;
+        font-size: 0.95rem !important;
+        background-color: #fff !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .form-control:focus, .form-control-file:focus {
+        border-color: #667eea !important;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15) !important;
+        background-color: #fff !important;
+        outline: none !important;
+    }
+
+    textarea.form-control {
+        min-height: 120px !important;
+        resize: vertical !important;
+    }
+
+    /* File Upload Styling */
+    .file-upload-container {
+        border: 2px dashed #cbd5e0 !important;
+        border-radius: 10px !important;
+        padding: 40px 20px !important;
+        text-align: center !important;
+        background-color: #f7fafc !important;
+        cursor: pointer !important;
+        transition: all 0.3s !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+
+    .file-upload-container:hover {
+        border-color: #667eea !important;
+        background-color: #edf2f7 !important;
+    }
+
+    .file-preview {
+        margin-top: 15px !important;
+        display: none !important;
+    }
+
+    .file-preview img {
+        max-width: 100% !important;
+        max-height: 200px !important;
+        border-radius: 8px !important;
+        border: 2px solid #e2e8f0 !important;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    /* Button Styling */
+    .btn-submit {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: white !important;
+        border: none !important;
+        padding: 16px 30px !important;
+        font-weight: 600 !important;
+        border-radius: 10px !important;
+        transition: all 0.3s !important;
+        width: 100% !important;
+        font-size: 1rem !important;
+        position: relative !important;
+        overflow: hidden !important;
+        text-align: center !important;
+        display: block !important;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3) !important;
+    }
+
+    .btn-submit:disabled {
+        opacity: 0.7 !important;
+        cursor: not-allowed !important;
+    }
+
+    /* Character Counter */
+    .character-count {
+        font-size: 0.8rem !important;
+        text-align: right !important;
+        margin-top: 5px !important;
+        font-weight: 500 !important;
+    }
+
+    .character-count.normal {
+        color: #718096 !important;
+    }
+
+    .character-count.warning {
+        color: #d69e2e !important;
+    }
+
+    .character-count.danger {
+        color: #e53e3e !important;
+        font-weight: 600 !important;
+    }
+
+    /* Design Tips */
+    .design-tips {
+        background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%) !important;
+        border-radius: 10px !important;
+        padding: 25px !important;
+        margin-top: 30px !important;
+        border-left: 4px solid #667eea !important;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03) !important;
+    }
+
+    /* Validation Messages */
+    .invalid-feedback, .valid-feedback {
+        display: block !important;
+        width: 100% !important;
+        margin-top: 0.25rem !important;
+        font-size: 0.875em !important;
+    }
+
+    .invalid-feedback {
+        color: #dc3545 !important;
+    }
+
+    .valid-feedback {
+        color: #198754 !important;
+    }
+
+    .is-invalid {
+        border-color: #dc3545 !important;
+        padding-right: calc(1.5em + 0.75rem) !important;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e") !important;
+        background-repeat: no-repeat !important;
+        background-position: right calc(0.375em + 0.1875rem) center !important;
+        background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem) !important;
+    }
+
+    .is-valid {
+        border-color: #198754 !important;
+        padding-right: calc(1.5em + 0.75rem) !important;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e") !important;
+        background-repeat: no-repeat !important;
+        background-position: right calc(0.375em + 0.1875rem) center !important;
+        background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem) !important;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .design-body {
+            padding: 20px !important;
+        }
+
+        .design-header {
+            padding: 25px 20px !important;
+        }
+
+        .form-control, .form-control-file {
+            padding: 10px 12px !important;
+        }
+    }
+
+    /* Ensure proper spacing */
+    .mb-3 {
+        margin-bottom: 1rem !important;
+    }
+
+    .mb-4 {
+        margin-bottom: 1.5rem !important;
+    }
+
+    .mt-4 {
+        margin-top: 1.5rem !important;
+    }
+
+    /* Fix for any parent container issues */
+    .content-wrapper {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+</style>
+
+<div class="container-wrapper">
+    <div class="design-container">
+        <div class="design-card">
+            <!-- Header -->
+            <div class="design-header">
+                <div class="icon-container">
+                    <i class="bi bi-palette2" style="font-size: 2.2rem;"></i>
+                </div>
+                <h1 class="h3 mb-2">Add Work Design</h1>
+                <p class="mb-0 opacity-90">Create and showcase your design projects</p>
+            </div>
+
+            <!-- Body -->
+            <div class="design-body">
+                <!-- Success Notification -->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <!-- Design Tips -->
+                <div class="design-tips mb-4">
+                    <h6><i class="bi bi-lightbulb-fill me-2" style="color: #f6ad55;"></i>Design Submission Guidelines</h6>
+                    <ul class="mb-0">
+                        <li>Use clear and descriptive titles (3-100 characters)</li>
+                        <li>Provide detailed specifications and requirements</li>
+                        <li>Upload high-quality images (JPG, PNG, GIF format)</li>
+                        <li>Maximum file size: 5MB</li>
+                    </ul>
+                </div>
+
+                <!-- Design Form -->
+                <form action="/myapp/add_work_post/" method="post" enctype="multipart/form-data" id="designForm">
+                    {% csrf_token %}
+
+                    <!-- Title Field -->
+                    <div class="mb-4">
+                        <label for="title" class="form-label">
+                            Design Title <span class="required">*</span>
+                        </label>
+                        <input type="text" id="title" name="title" class="form-control"
+                               placeholder="e.g., Modern Luxury Villa Design"
+                               required
+                               minlength="3"
+                               maxlength="100">
+                        <div class="character-count normal" id="titleCount">0/100 characters</div>
+                        <div class="invalid-feedback">
+                            Please enter a valid title (3-100 characters).
+                        </div>
+                    </div>
+
+                    <!-- Details Field -->
+                    <div class="mb-4">
+                        <label for="details" class="form-label">
+                            Design Details <span class="required">*</span>
+                        </label>
+                        <textarea id="details" name="details" class="form-control"
+                                  rows="5"
+                                  placeholder="Describe your design concept, specifications, and requirements..."
+                                  required
+                                  minlength="20"
+                                  maxlength="1000"></textarea>
+                        <div class="character-count normal" id="detailsCount">0/1000 characters</div>
+                        <div class="invalid-feedback">
+                            Please provide detailed description (minimum 20 characters).
+                        </div>
+                    </div>
+
+                    <!-- Image Upload Field -->
+                    <div class="mb-4">
+                        <label for="image" class="form-label">
+                            Design Image <span class="required">*</span>
+                        </label>
+                        <div class="file-upload-container" onclick="document.getElementById('image').click()">
+                            <input type="file" id="image" name="image" class="d-none"
+                                   accept="image/*"
+                                   required>
+                            <i class="bi bi-cloud-arrow-up display-4 text-muted mb-3"></i>
+                            <h5 class="h6 mb-2 fw-semibold">Click to upload or drag & drop</h5>
+                            <p class="text-muted mb-0 small">Supports: JPG, PNG, GIF • Max size: 5MB</p>
+                        </div>
+
+                        <!-- Image Preview -->
+                        <div class="file-preview text-center" id="imagePreview">
+                            <img id="previewImage" src="#" alt="Image preview" class="img-fluid rounded">
+                            <div class="mt-2 small text-muted" id="imageInfo"></div>
+                            <button type="button" class="btn btn-sm btn-outline-danger mt-2" onclick="removeImage()">
+                                <i class="bi bi-trash me-1"></i>Remove
+                            </button>
+                        </div>
+                        <div class="invalid-feedback mt-2" id="imageError"></div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="row mt-5">
+                        <div class="col-md-6 mb-3">
+                            <button type="reset" class="btn btn-outline-secondary w-100 py-3" onclick="resetForm()">
+                                <i class="bi bi-arrow-clockwise me-2"></i>Clear All
+                            </button>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <button type="submit" class="btn-submit py-3">
+                                <i class="bi bi-plus-circle me-2"></i>Submit Design
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Initialize character counters
+    function initCharacterCounters() {
+        updateCharacterCount('title', 'titleCount', 100);
+        updateCharacterCount('details', 'detailsCount', 1000);
+    }
+
+    // Character counter for inputs
+    function updateCharacterCount(inputId, counterId, maxLength) {
+        const input = document.getElementById(inputId);
+        const counter = document.getElementById(counterId);
+        if (input && counter) {
+            const currentLength = input.value.length;
+            counter.textContent = `${currentLength}/${maxLength} characters`;
+
+            // Update color based on usage
+            if (currentLength > maxLength * 0.9) {
+                counter.className = 'character-count danger';
+            } else if (currentLength > maxLength * 0.7) {
+                counter.className = 'character-count warning';
+            } else {
+                counter.className = 'character-count normal';
+            }
+        }
+    }
+
+    // Image preview functionality
+    document.getElementById('image').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('imagePreview');
+        const previewImage = document.getElementById('previewImage');
+        const imageInfo = document.getElementById('imageInfo');
+        const errorElement = document.getElementById('imageError');
+
+        if (file) {
+            // Check file type
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            if (!validTypes.includes(file.type)) {
+                errorElement.textContent = 'Invalid file type. Please upload JPG, PNG, or GIF image.';
+                return;
+            }
+
+            // Check file size (5MB max)
+            const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+            if (file.size > maxSize) {
+                errorElement.textContent = 'File too large. Maximum size is 5MB.';
+                return;
+            }
+
+            // Clear any previous errors
+            errorElement.textContent = '';
+
+            // Create preview
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImage.src = e.target.result;
+                preview.style.display = 'block';
+
+                // Update image info
+                const fileSize = (file.size / 1024 / 1024).toFixed(2);
+                const img = new Image();
+                img.onload = function() {
+                    imageInfo.textContent = `Dimensions: ${this.width}x${this.height}px • Size: ${fileSize}MB`;
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Remove image
+    function removeImage() {
+        document.getElementById('image').value = '';
+        document.getElementById('imagePreview').style.display = 'none';
+        document.getElementById('imageError').textContent = '';
+    }
+
+    // Reset form
+    function resetForm() {
+        document.getElementById('designForm').reset();
+        removeImage();
+        initCharacterCounters();
+    }
+
+    // Form validation
+    document.getElementById('designForm').addEventListener('submit', function(event) {
+        let isValid = true;
+
+        // Validate title
+        const title = document.getElementById('title').value.trim();
+        if (title.length < 3 || title.length > 100) {
+            document.getElementById('title').classList.add('is-invalid');
+            isValid = false;
+        } else {
+            document.getElementById('title').classList.remove('is-invalid');
+        }
+
+        // Validate details
+        const details = document.getElementById('details').value.trim();
+        if (details.length < 20 || details.length > 1000) {
+            document.getElementById('details').classList.add('is-invalid');
+            isValid = false;
+        } else {
+            document.getElementById('details').classList.remove('is-invalid');
+        }
+
+        // Validate image
+        const image = document.getElementById('image').files[0];
+        if (!image) {
+            document.getElementById('imageError').textContent = 'Please select an image file.';
+            isValid = false;
+        }
+
+        if (!isValid) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    });
+
+    // Real-time validation
+    document.getElementById('title').addEventListener('input', function() {
+        updateCharacterCount('title', 'titleCount', 100);
+        const title = this.value.trim();
+        if (title.length >= 3 && title.length <= 100) {
+            this.classList.remove('is-invalid');
+            this.classList.add('is-valid');
+        } else {
+            this.classList.remove('is-valid');
+        }
+    });
+
+    document.getElementById('details').addEventListener('input', function() {
+        updateCharacterCount('details', 'detailsCount', 1000);
+        const details = this.value.trim();
+        if (details.length >= 20 && details.length <= 1000) {
+            this.classList.remove('is-invalid');
+            this.classList.add('is-valid');
+        } else {
+            this.classList.remove('is-valid');
+        }
+    });
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        initCharacterCounters();
+    });
+</script>
+
+{% endblock %}

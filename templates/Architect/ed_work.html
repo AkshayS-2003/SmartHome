@@ -1,0 +1,540 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Add tips</title>#}
+{#</head>#}
+{#<body>#}
+{#<h1>Tips</h1>#}
+{#<form action="/myapp/ed_works_post/{{ data.id }}" method="post">#}
+{#    {% csrf_token %}#}
+{##}
+{#    <!-- IMPORTANT: hidden id -->#}
+{#    <input type="hidden" name="id" value="{{ data.id }}">#}
+{##}
+{#    <label for="title">Title</label>#}
+{#    <input type="text" id="title" name="title" value="{{ data.title }}" required><br><br>#}
+{##}
+{#    <label for="details">Description</label>#}
+{#    <input type="text" id="details" name="details" value="{{ data.details }}" required><br><br>#}
+{##}
+{#    <label for="image">Upload photo:</label>#}
+{#    <input type="file" id="image" name="image" value="{{ data.image }}" required><br><br>#}
+{##}
+{#    <button type="submit">Update</button>#}
+{#</form>#}
+{##}
+{##}
+{#</body>#}
+{#</html>#}
+
+
+{% extends 'Architect/Architect_index.html' %}
+{% block body %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add tips</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        .form-container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+            padding: 40px;
+            border-top: 5px solid #28a745;
+            position: relative;
+            overflow: hidden;
+        }
+        .form-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #28a745, #20c997, #17a2b8);
+        }
+        .header-section {
+            text-align: center;
+            margin-bottom: 35px;
+            position: relative;
+        }
+        .header-section h1 {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        .header-icon {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+        }
+        .header-section p {
+            color: #6c757d;
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        .form-label i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        .title-label i {
+            color: #28a745;
+        }
+        .details-label i {
+            color: #17a2b8;
+        }
+        .image-label i {
+            color: #ffc107;
+        }
+        .form-control {
+            padding: 14px 16px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        .form-control:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
+        }
+        .required-field::after {
+            content: " *";
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .btn-submit {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            border: none;
+            color: white;
+            padding: 16px 40px;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+            width: 100%;
+            margin-top: 20px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #218838 0%, #1ba87e 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(40, 167, 69, 0.3);
+        }
+        .btn-submit:active {
+            transform: translateY(-1px);
+        }
+        .current-image-section {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .current-image {
+            max-width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 3px solid #f8f9fa;
+        }
+        .image-info {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-top: 8px;
+        }
+        .file-upload-wrapper {
+            position: relative;
+            margin-bottom: 5px;
+        }
+        .file-upload-label {
+            display: block;
+            padding: 12px;
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #6c757d;
+        }
+        .file-upload-label:hover {
+            background: #e9ecef;
+            border-color: #28a745;
+        }
+        .file-upload-label i {
+            margin-right: 8px;
+            color: #28a745;
+        }
+        #image {
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        .image-preview {
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+        .preview-image {
+            max-width: 200px;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+            margin-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 30px;
+        }
+        .form-footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9rem;
+            border-top: 1px solid #e9ecef;
+            padding-top: 20px;
+        }
+        .character-count {
+            font-size: 0.85rem;
+            color: #6c757d;
+            text-align: right;
+            margin-top: 5px;
+        }
+        .validation-message {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <!-- Header Section -->
+            <div class="header-section">
+                <h1>
+                    <div class="header-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    Update Design Tip
+                </h1>
+                <p>Edit and enhance your design tip with a compelling title, detailed description, and engaging visual.</p>
+            </div>
+
+            <!-- Current Image Display -->
+            {% if data.image %}
+            <div class="current-image-section">
+                <p class="form-label"><i class="fas fa-image"></i>Current Image</p>
+                <img src="{{ data.image.url }}" alt="Current Tip Image" class="current-image">
+                <p class="image-info">Current uploaded image. Upload a new one below to replace it.</p>
+            </div>
+            {% endif %}
+
+            <!-- Form -->
+            <form action="/myapp/ed_works_post/{{ data.id }}" method="post" enctype="multipart/form-data" id="tipsForm">
+                {% csrf_token %}
+
+                <!-- Hidden ID Field (Preserved exactly as in original) -->
+                <input type="hidden" name="id" value="{{ data.id }}">
+
+                <!-- Title Field -->
+                <div class="form-group">
+                    <label for="title" class="form-label title-label required-field">
+                        <i class="fas fa-heading"></i>Tip Title
+                    </label>
+                    <input type="text" id="title" name="title" class="form-control"
+                           value="{{ data.title }}" required
+                           placeholder="Enter a catchy title for your design tip"
+                           maxlength="100">
+                    <div class="character-count">
+                        <span id="titleCount">0</span>/100 characters
+                    </div>
+                    <div class="validation-message" id="titleError">Title must be between 5 and 100 characters</div>
+                </div>
+
+                <!-- Description Field -->
+                <div class="form-group">
+                    <label for="details" class="form-label details-label required-field">
+                        <i class="fas fa-align-left"></i>Tip Description
+                    </label>
+                    <textarea id="details" name="details" class="form-control"
+                              rows="4" required
+                              placeholder="Provide detailed explanation, steps, or insights for this design tip"
+                              maxlength="500">{{ data.details }}</textarea>
+                    <div class="character-count">
+                        <span id="detailsCount">0</span>/500 characters
+                    </div>
+                    <div class="validation-message" id="detailsError">Description must be between 20 and 500 characters</div>
+                </div>
+
+                <!-- Image Upload Field -->
+                <div class="form-group">
+                    <label class="form-label image-label">
+                        <i class="fas fa-camera"></i>Upload Photo
+                    </label>
+                    <div class="file-upload-wrapper">
+                        <label class="file-upload-label" for="image">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span id="fileLabel">
+                                {% if data.image %}
+                                Click to upload a new image (optional)
+                                {% else %}
+                                Click to upload an image (required)
+                                {% endif %}
+                            </span>
+                        </label>
+                        <input type="file" id="image" name="image"
+                               {% if not data.image %}required{% endif %}
+                               accept="image/*">
+                    </div>
+                    <p class="image-info">Supported formats: JPG, PNG, GIF. Max size: 5MB.</p>
+
+                    <!-- Image Preview Area -->
+                    <div class="image-preview" id="imagePreview">
+                        <img src="" alt="Preview" class="preview-image">
+                        <div id="previewInfo"></div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-submit">
+                    <i class="fas fa-save me-2"></i>Update Design Tip
+                </button>
+
+                <!-- Form Footer -->
+                <div class="form-footer">
+                    <p><i class="fas fa-info-circle me-1"></i>All fields marked with * are required</p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Form Validation and Interactive Features -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('tipsForm');
+            const titleInput = document.getElementById('title');
+            const detailsInput = document.getElementById('details');
+            const imageInput = document.getElementById('image');
+            const imagePreview = document.getElementById('imagePreview');
+            const fileLabel = document.getElementById('fileLabel');
+            const titleCount = document.getElementById('titleCount');
+            const detailsCount = document.getElementById('detailsCount');
+            const titleError = document.getElementById('titleError');
+            const detailsError = document.getElementById('detailsError');
+
+            // Initialize character counters
+            titleCount.textContent = titleInput.value.length;
+            detailsCount.textContent = detailsInput.value.length;
+
+            // Character count for title
+            titleInput.addEventListener('input', function() {
+                const length = this.value.length;
+                titleCount.textContent = length;
+
+                // Validate length
+                if (length < 5 || length > 100) {
+                    titleError.style.display = 'block';
+                    this.classList.add('is-invalid');
+                } else {
+                    titleError.style.display = 'none';
+                    this.classList.remove('is-invalid');
+                }
+            });
+
+            // Character count for description
+            detailsInput.addEventListener('input', function() {
+                const length = this.value.length;
+                detailsCount.textContent = length;
+
+                // Validate length
+                if (length < 20 || length > 500) {
+                    detailsError.style.display = 'block';
+                    this.classList.add('is-invalid');
+                } else {
+                    detailsError.style.display = 'none';
+                    this.classList.remove('is-invalid');
+                }
+            });
+
+            // Image preview and validation
+            imageInput.addEventListener('change', function() {
+                const file = this.files[0];
+
+                if (file) {
+                    // Validate file type
+                    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+                    if (!validTypes.includes(file.type)) {
+                        alert('Please select a valid image file (JPG, PNG, GIF, or WebP).');
+                        this.value = '';
+                        imagePreview.style.display = 'none';
+                        return;
+                    }
+
+                    // Validate file size (5MB max)
+                    const maxSize = 5 * 1024 * 1024; // 5MB
+                    if (file.size > maxSize) {
+                        alert('Image size exceeds 5MB limit. Please choose a smaller file.');
+                        this.value = '';
+                        imagePreview.style.display = 'none';
+                        return;
+                    }
+
+                    // Update file label
+                    fileLabel.innerHTML = `<i class="fas fa-check-circle"></i> ${file.name} (${(file.size/1024).toFixed(1)} KB)`;
+
+                    // Create image preview
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const previewImg = imagePreview.querySelector('.preview-image');
+                        const previewInfo = document.getElementById('previewInfo');
+
+                        previewImg.src = e.target.result;
+                        previewInfo.innerHTML = `
+                            <div class="alert alert-success p-2 mt-2">
+                                <i class="fas fa-check-circle me-1"></i>
+                                New image selected: ${file.name}<br>
+                                <small>Dimensions will be shown after upload</small>
+                            </div>
+                        `;
+                        imagePreview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    // Reset if no file selected
+                    if ({{ data.image|yesno:"true,false" }}) {
+                        fileLabel.innerHTML = 'Click to upload a new image (optional)';
+                    } else {
+                        fileLabel.innerHTML = 'Click to upload an image (required)';
+                    }
+                    imagePreview.style.display = 'none';
+                }
+            });
+
+            // Form validation on submit
+            form.addEventListener('submit', function(e) {
+                let isValid = true;
+                let errorMessages = [];
+
+                // Title validation
+                const title = titleInput.value.trim();
+                if (title.length < 5 || title.length > 100) {
+                    isValid = false;
+                    errorMessages.push('Title must be between 5 and 100 characters.');
+                    titleError.style.display = 'block';
+                    titleInput.classList.add('is-invalid');
+                }
+
+                // Description validation
+                const details = detailsInput.value.trim();
+                if (details.length < 20 || details.length > 500) {
+                    isValid = false;
+                    errorMessages.push('Description must be between 20 and 500 characters.');
+                    detailsError.style.display = 'block';
+                    detailsInput.classList.add('is-invalid');
+                }
+
+                // Image validation (only required if no existing image)
+                const hasExistingImage = {{ data.image|yesno:"true,false" }};
+                if (!hasExistingImage && (!imageInput.files || imageInput.files.length === 0)) {
+                    isValid = false;
+                    errorMessages.push('Please upload an image for the tip.');
+                }
+
+                if (!isValid) {
+                    e.preventDefault();
+
+                    // Scroll to first error
+                    const firstError = document.querySelector('.is-invalid');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+
+                    // Show error alert
+                    if (errorMessages.length > 0) {
+                        const alertDiv = document.createElement('div');
+                        alertDiv.className = 'alert alert-danger alert-dismissible fade show';
+                        alertDiv.innerHTML = `
+                            <h5 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>Please fix the following errors:</h5>
+                            <ul class="mb-0">
+                                ${errorMessages.map(msg => `<li>${msg}</li>`).join('')}
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        `;
+
+                        // Insert alert at top of form
+                        const header = document.querySelector('.header-section');
+                        header.parentNode.insertBefore(alertDiv, header.nextSibling);
+
+                        // Auto-dismiss after 10 seconds
+                        setTimeout(() => {
+                            const bsAlert = new bootstrap.Alert(alertDiv);
+                            bsAlert.close();
+                        }, 10000);
+                    }
+                }
+            });
+
+            // Initial validation check
+            titleInput.dispatchEvent(new Event('input'));
+            detailsInput.dispatchEvent(new Event('input'));
+
+            // Add visual feedback for file upload area
+            const fileUploadLabel = document.querySelector('.file-upload-label');
+            imageInput.addEventListener('dragenter', function() {
+                fileUploadLabel.style.borderColor = '#28a745';
+                fileUploadLabel.style.backgroundColor = '#e8f5e9';
+            });
+
+            imageInput.addEventListener('dragleave', function() {
+                fileUploadLabel.style.borderColor = '#dee2e6';
+                fileUploadLabel.style.backgroundColor = '#f8f9fa';
+            });
+
+            imageInput.addEventListener('drop', function() {
+                fileUploadLabel.style.borderColor = '#28a745';
+                fileUploadLabel.style.backgroundColor = '#e8f5e9';
+            });
+        });
+    </script>
+</body>
+</html>
+
+{% endblock %}
